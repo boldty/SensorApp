@@ -20,6 +20,7 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
 
     MediaPlayer mpL,mpR;
     Vibrator vibrator;
+    int sensitivity;
     boolean haveL, haveR;
     private TextView xText,yText, zText, oText;
     private Sensor mySensor;
@@ -30,28 +31,23 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_event);
 
-        // Creates the sensor manager
         sm = (SensorManager)getSystemService(SENSOR_SERVICE);
-
-        // Acceleromter sensor
         mySensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        // Assign TextViews
+        
         xText = (TextView)findViewById(R.id.xText);
         yText = (TextView)findViewById(R.id.yText);
         zText = (TextView)findViewById(R.id.zText);
 
         oText = (TextView)findViewById(R.id.oText);
 
-        // Assign other values
-
         haveL = false;
         haveR = false;
         mpR = MediaPlayer.create(this, R.raw.right);
         mpL = MediaPlayer.create(this, R.raw.left);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        sensitivity = 5;
 
-        // Registers sensor listener
+
         start();
 
     }
@@ -64,7 +60,7 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
         yText.setText("Y: " + String.format("%.2f",event.values[1]));
         zText.setText("Z: " + String.format("%.2f",event.values[2]));
 
-        if(x >= 4){
+        if(x >= sensitivity){
             oText.setText("Left");
             if(!haveL){
                 mpL.start();
@@ -73,7 +69,7 @@ public class Accelerometer extends AppCompatActivity implements SensorEventListe
                 haveL = true;
             }
         }
-        else if(x <= -4){
+        else if(x <= -sensitivity){
             oText.setText("Right");
             if(!haveR){
                 mpR.start();

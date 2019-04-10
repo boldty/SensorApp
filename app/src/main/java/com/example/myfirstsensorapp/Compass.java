@@ -46,6 +46,7 @@ public class Compass extends AppCompatActivity implements SensorEventListener {
         compass_img = (ImageView) findViewById(R.id.img_compass);
         txt_compass = (TextView) findViewById(R.id.txt_azimuth);
 
+        // Assign Values
         view = this.getWindow().getDecorView();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         haveVibrated = false;
